@@ -208,18 +208,10 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
-" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"   
-
-" Plug 'vim-ctrlspace/vim-ctrlspace'
-" nnoremap <silent><C-p> :CtrlSpace O<CR>
-" nnoremap <leader>bn :bnext<CR>
-" nnoremap <leader>bp :bprev<CR>
-" nnoremap <leader>bb :CtrlSpace<CR>
-" let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
-" let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-" let g:CtrlSpaceSaveWorkspaceOnExit = 1
+let g:UltiSnipsExpandTrigger="<C-j>"
+let g:UltiSnipsJumpForwardTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-h>"   
+let g:UltiSnipsListSnippets="<C-s>"
 
 " Tabnine
 Plug 'codota/tabnine-vim'
@@ -234,6 +226,4 @@ colorscheme OceanicNext
 let g:airline_theme='oceanicnext'
 
 " Eseguo apply di chezmoi ad ogni salvataggio di dotfiles
-" autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path %
-
-
+autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path %

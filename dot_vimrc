@@ -140,8 +140,9 @@ nnoremap <leader>n :NERDTreeToggle<CR>
 nnoremap <C-t> :NERDTreeFocus<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 let NERDTreeQuitOnOpen=1
-autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-            \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+" autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+            " \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 
 Plug 'Xuyuanp/nerdtree-git-plugin' 
 let g:NERDTreeGitStatusIndicatorMapCustom = {
@@ -213,17 +214,36 @@ let g:UltiSnipsJumpForwardTrigger="<C-l>"
 let g:UltiSnipsJumpBackwardTrigger="<C-h>"   
 let g:UltiSnipsListSnippets="<C-s>"
 
-" Tabnine
-Plug 'codota/tabnine-vim'
-
 " Cleverf per migliorare il posizionamento con f
 Plug 'rhysd/clever-f.vim'
 
+" Vim test
+Plug 'vim-test/vim-test'
+
+let test#strategy = "dispatch"
+
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+
+
+augroup test
+  autocmd!
+  autocmd BufWrite * if test#exists() |
+    \   TestSuite |
+    \ endif
+augroup END
+
+Plug 'tpope/vim-dispatch'
+
 call plug#end()
+
+" Eseguo apply di chezmoi ad ogni salvataggio di dotfiles
+autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path %
 
 colorscheme OceanicNext
 
 let g:airline_theme='oceanicnext'
 
-" Eseguo apply di chezmoi ad ogni salvataggio di dotfiles
-autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path %

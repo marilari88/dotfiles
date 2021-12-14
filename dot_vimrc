@@ -177,6 +177,11 @@ let g:miramare_disable_italic_comment = 1
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+function! TestStatus() abort
+  return g:testing_status
+endfunction
 
 Plug 'tpope/vim-fugitive'
 map <Leader>g :Git<CR>
@@ -220,23 +225,16 @@ Plug 'rhysd/clever-f.vim'
 " Vim test
 Plug 'vim-test/vim-test'
 
-let test#strategy = "dispatch"
-
-nmap <silent> t<C-n> :TestNearest<CR>
-nmap <silent> t<C-f> :TestFile<CR>
-nmap <silent> t<C-s> :TestSuite<CR>
-nmap <silent> t<C-l> :TestLast<CR>
-nmap <silent> t<C-g> :TestVisit<CR>
-
-
-augroup test
-  autocmd!
-  autocmd BufWrite * if test#exists() |
-    \   TestSuite |
-    \ endif
-augroup END
+" augroup test
+" augroup test
+"     autocmd!
+"     autocmd BufWrite * if test#exists() |
+"                 \   TestSuite |
+"                 \ endif
+" augroup END
 
 Plug 'tpope/vim-dispatch'
+Plug 'neomake/neomake'
 
 call plug#end()
 
@@ -246,4 +244,58 @@ autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path %
 colorscheme OceanicNext
 
 let g:airline_theme='oceanicnext'
+
+let g:test#javascript#jest#options = '--reporters jest-vim-reporter'
+" let g:test#javascript#reactscripts#options = '--reporters jest-vim-reporter'
+let test#strategy = "neomake"
+
+nnoremap <leader>tn :TestNearest<CR>
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>ts :TestSuite<CR>
+nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>tv :TestVisit<CR>
+
+nnoremap [q :cprevious<CR>
+nnoremap ]q :cnext<CR>
+nnoremap [Q :cfirst<CR>
+nnoremap ]Q :clast<CR>
+
+augroup neomake_hook
+    au!
+    autocmd User NeomakeJobFinished call TestFinished()
+    autocmd User NeomakeJobStarted call TestStarted()
+augroup END
+
+" initially empty status
+let g:testing_status = ''
+
+" Start test
+function! TestStarted() abort
+  let g:testing_status = 'Test ⌛'
+endfunction
+
+" Show message when all tests are passing
+function! TestFinished() abort
+  let context = g:neomake_hook_context
+  if context.jobinfo.exit_code == 0
+    let g:testing_status = 'Test ✅'
+  endif
+  if context.jobinfo.exit_code == 1
+    let g:testing_status = 'Test ❌'
+  endif
+endfunction
+
+function! TestStatus() abort
+  return g:testing_status
+endfunction
+
+function! AirlineInit()
+    call airline#parts#define_function('teststatus', 'TestStatus')
+    let g:airline_section_b = airline#section#create_right(['teststatus','hunks','branch'])
+endfunction
+
+autocmd User AirlineAfterInit call AirlineInit()
+
+let g:neomake_open_list = 1
+let g:neomake_logfile = '/tmp/neomake.log'
 

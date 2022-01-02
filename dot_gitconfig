@@ -1,0 +1,25 @@
+[user]
+    email = marilari88@gmail.com
+    name = Marco Ilari
+    username = marilari88
+[alias]
+    s = status -s
+    unstage = reset HEAD --
+    last = log -l HEAD
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    branch-name = rev-parse --abbrev-ref HEAD
+    publish = !git push -u origin $(git branch-name)
+    unpublish = !git push origin :$(git branch-name)
+    pushf = push --force-with-lease
+    pullr = pull --rebase
+    amend = commit --amend --no-edit
+    df = diff --ignore-space-at-eol -b -w --ignore-blank-lines
+    remove-untracked = fetch --prune && git branch -r | awk \"{print $1}\" | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk \"{print $1}\" | xargs git branch -d
+[rerere]
+    enabled = true
+[core]
+    editor = vim
+[pull]
+    ff = only
+[init]
+    defaultBranch = main

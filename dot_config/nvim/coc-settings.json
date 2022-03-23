@@ -1,0 +1,27 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "json",
+    "css",
+    "markdown",
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "graphql",
+    "javascriptreact"
+  ],
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.keyMappings.global": {
+    "s": "open:vsplit"
+  },
+  "cSpell.userWords": [
+    "Ilari",
+    "Pokedex",
+    "bulbasaur",
+    "donttouch",
+    "ivyaur",
+    "ivysaur"
+  ]
+}

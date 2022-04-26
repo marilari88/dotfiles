@@ -89,8 +89,8 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " coc apply codeaction
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+xmap <leader>a  <Plug>(coc-codeaction-selected)<CR>
+nmap <leader>a  <Plug>(coc-codeaction-selected)<CR>
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -149,9 +149,24 @@ tmap <C-up> <C-w>5-
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>p <cmd>Telescope find_files<cr>
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>r <cmd>Telescope live_grep<cr>
+nnoremap <leader>b <cmd>Telescope buffers<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 let g:rainbow_active = 1
+
+vnoremap y mxy'x
+
+" Jest test
+nnoremap <leader>jt :call CocAction('runCommand', 'jest.singleTest')<CR>
+nnoremap <leader>jf :call CocAction('runCommand', 'jest.fileTest')<CR>
+nnoremap <leader>jp :call CocAction('runCommand', 'jest.projectTest')<CR>
+
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Show commands.
+nnoremap <silent><nowait> <leader>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<cr>
